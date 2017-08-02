@@ -1,0 +1,296 @@
+<HTML>
+	<HEAD>
+		<STYLE>
+			TD {
+				border:1px solid black; <!-- tells the browser that there needs to be a solid black line around each data cell that's 1 pixel thick -->
+			
+			}
+			INPUT{
+				width:38px;
+				height:38px;
+				text-align:center;
+				font-size:32px;
+			}
+			.error{
+				color:red; <!-- CSS to make the input red when an invalid value is entered -->
+			}
+			.background{
+				background-color: #8b8b8b;
+			}
+			.background:disabled{
+				background-color: #dddddd;
+			}
+			
+		</STYLE>
+		<Script>
+			var games=[[["","","4","","5","","","",""],
+						 ["","5","","8","","","","6",""],
+						 ["","","1","","","","9","","4"],
+						 ["","","","5","","3","","9",""],
+						 ["6","","","","","","","","2"],
+						 ["","8","","6","","9","","",""],
+						 ["4","","6","","","","2","",""],
+						 ["","3","","","","4","","7",""],
+						 ["","","","","7","","8","",""]],
+					[["4","3","5","8","9","7","","6","2"],
+					  ["","","6","2","5","4","3","7",""],
+					  ["2","8","","6","","","5","9","4"],
+					  ["3","6","2","9","8","","7","4",""],
+					  ["5","4","","7","6","1","","2","3"],
+					  ["","7","9","","4","2","8","5","6"],
+					  ["8","9","3","","","6","","1","5"],
+					  ["","2","1","5","3","9","4","",""],
+					  ["7","5","","1","2","8","6","3","9"]]]
+			  var currentGame=0;
+			function loadGame(){
+				for(var rowNumber = 0; rowNumber < 9; rowNumber++){
+					for(var columnNumber = 0; columnNumber < 9; columnNumber++){
+						var gameCellValue=games[currentGame][rowNumber][columnNumber];
+						var inputBox=document.getElementById(rowNumber+""+columnNumber);
+						inputBox.value=gameCellValue;
+						if (gameCellValue!=""){
+							inputBox.disabled=true;
+						}
+					}
+				}
+				currentGame++;//increments the game
+				if (currentGame===games.length)currentGame=0;//=== compares type as well as value
+			}
+			function cancelGame(){
+			window.location="https://www.google.com";
+			}
+			function entry(input){ //function to look at a variable and calling that variable "input"
+				var userInput;
+				userInput=input.value;
+				var valid;
+				valid=true;
+				if (!(/^[1-9]$/).test(userInput)){ //if value entered is not 1-9, it's not valid
+					valid=false;
+				}
+				valid=valid && rowValid (input)&& columnValid (input) && boxValid (input); //calling the rowValid and columnValid and boxValid functions
+				setValidity(input, valid);//calling the setValidity function
+				gameOver(valid);
+			
+				
+			}
+			function gameOver(valid){ //function to loop through to check that every cell has an entry
+				for(var rowNumber = 0; rowNumber < 9; rowNumber++){
+					for(var columnNumber = 0; columnNumber < 9; columnNumber++){
+						var inputBox=document.getElementById(rowNumber+""+columnNumber);
+						if (inputBox.value==""){
+							return false;
+						}
+					}
+				}
+				if (valid){
+					alert("Congratulations!");
+				}
+			}
+			function rowValid(input){//code so that a number 1-9 can only be in a ROW once to be valid
+				var userInput;
+				userInput=input.value;
+				for (var columnNumber = 0; columnNumber < 9; columnNumber++){ //count up to nine
+					var rowNumber;
+					rowNumber=input.id.substr(0,1); //take the input field and grab the ID of the cell and grab the first character in the ID of the cell
+					var cellId;
+					cellId=rowNumber + columnNumber; //the ID of the cell row number plus column number
+					var cell = document.getElementById(cellId); //cell is the actual input that the user enters
+					console.log(cell);
+					if (input.value==cell.value && input.id != cell.id){ //rule to say if there is more than one occurrence of a number 1-9 in a row,then entry is invalid
+						return false;
+					}
+				}
+				return true;
+			}
+			function columnValid(input){ //code so that a number 1-9 can only be in a COLUMN once to be valid
+				var userInput;
+				userInput=input.value;
+				for (var rowNumber = 0; rowNumber < 9; rowNumber++){
+					var columnNumber;
+					columnNumber=input.id.substr(1,1);
+					var cellId;
+					cellId=rowNumber + columnNumber;
+					var cell = document.getElementById(cellId);
+					console.log(cell);
+					if (input.value==cell.value && input.id != cell.id){
+						return false;
+					}
+				}
+				return true;
+		
+			}
+			function boxValid(input){//code so that a number 1-9 can only be in a BOX once to be valid
+				var userInput;
+				userInput=input.value;
+				var boxNumber;
+				boxNumber=getBox(input);
+				var boxCells;//array of the IDs of the cells
+				boxCells=getBoxCells(boxNumber);
+				for (var cellIndex = 0; cellIndex < 9; cellIndex++){
+					var cell = document.getElementById(boxCells[cellIndex]);
+					if (input.value==cell.value && input.id != cell.id){
+					return false;
+					}
+				}
+				return true;
+			}	
+			function getBox(input){ // code to get the box number for collection of cells belonging to each BOX
+				var rowNumber;
+				rowNumber=rowNumber=input.id.substr(0,1);
+				var columnNumber;
+				columnNumber=columnNumber=input.id.substr(1,1);
+				var boxNumber;
+					if(rowNumber <3 && columnNumber <3){
+						boxNumber=1;
+					} else if(rowNumber <3 && columnNumber <6 && columnNumber >2){
+						boxNumber=2;
+					} else if (rowNumber <3 && columnNumber >5){
+						boxNumber=3;
+					} else if (rowNumber <6 && rowNumber >2 && columnNumber <3){
+						boxNumber=4;
+					} else if (rowNumber <6 && rowNumber >2 && columnNumber <6 && columnNumber >2){
+						boxNumber=5;
+					} else if (rowNumber <6 && rowNumber >2 && columnNumber >5){
+						boxNumber=6;
+					} else if (rowNumber >5 && columnNumber <3){
+						boxNumber=7;
+					} else if (rowNumber >5 && columnNumber <6 && columnNumber >2){
+						boxNumber=8;
+					} else if (rowNumber >5 && columnNumber >5){
+						boxNumber=9;
+					}	
+				return boxNumber;
+			}
+			function getBoxCells(boxNumber){//code to get the cell IDs in a box 
+				var cellList;
+				cellList=[];
+				var rowStart;
+				rowStart=Math.floor((boxNumber-1)/3)*3;//identifying the row id's in a particular box using this formula
+				var columnStart;
+				columnStart=((boxNumber-1)%3)*3;//identifying the column id's in a particular box using this formula	
+				for (var rowNumber=rowStart; rowNumber < rowStart+3; rowNumber++){//loop looks at 3 rows starting at the uppermost left cell of the box
+					for (columnNumber=columnStart; columnNumber < columnStart+3; columnNumber++){//loop looks at 3 columns starting at the uppermost left cell of the box
+						cellList.push(rowNumber+""+columnNumber)//making the row number a string to concatenate it to the column number for the cell ID
+					}
+				}
+				return cellList;
+			}
+			function setValidity(input,valid){//function to determine if valid = true or if valid = false and if false, then set input to red
+				if (valid){
+					input.className="";
+				} else{
+					input.className="error";
+				}
+			}
+		</Script>
+	</HEAD>
+	<BODY onload="loadGame()">
+		<TABLE>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="00" class="background"/></TD> <!-- 1st digit is the row number and 2nd digit is the column number -->
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="01" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="02" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="03"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="04"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="05"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="06" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="07" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="08" class="background"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="10" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="11" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="12" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="13"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="14"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="15"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="16" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="17" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="18" class="background"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="20" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="21" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="22" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="23"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="24"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="25"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="26" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="27" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="28" class="background"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="30"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="31"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="32"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="33" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="34" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="35" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="36"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="37"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="38"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="40"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="41"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="42"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="43" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="44" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="45" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="46"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="47"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="48"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="50"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="51"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="52"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="53" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="54" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="55" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="56"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="57"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="58"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="60" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="61" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="62" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="63"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="64"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="65"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="66" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="67" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="68" class="background"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="70" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="71" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="72" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="73"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="74"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="75"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="76" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="77" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="78" class="background"/></TD>
+			</TR>
+			<TR>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="80" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="81" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="82" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="83"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="84"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="85"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="86" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="87" class="background"/></TD>
+				<TD><input onchange="entry(this)" type="text" maxlength="1" id="88" class="background"/></TD>
+			</TR>
+		</TABLE>
+		<BUTTON onclick="cancelGame()">
+		Cancel
+		</BUTTON>
+		<BUTTON onclick="loadGame()">
+		Next Game
+		</BUTTON>
+	</BODY>
+</HTML>

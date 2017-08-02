@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<Script>
+
+function annualMileage() {
+
+	var mileage;
+	mileage = document.getElementById("annualMileage").value; //this calls the getElementbyID function that is apart of the document object.  Basically, this is looking for an HTML element where the ID is "annualMileage" and then get the value of that field
+	mileage = parseInt(mileage); //the number entered in the annual mileage field
+	if(mileage >= 1 && mileage <= 70000){ //if valid entry is made
+		alert("OK");
+	}else{ //If conditions above are false
+		alert("Try Again");
+	}
+}
+function validateFieldLength() {
+	var mileagefield;
+	mileagefield = document.getElementById("annualMileage"); //defines mileagefield as the HTML element that has the ID "annual mileage" 
+	var mileage;
+	mileage = mileagefield.value //take whatever is in mileagefield and give me the value of it
+	if(mileage.length > 4){ //if the number of characters entered is greater than <number>
+		var setMileageValue
+		setMileageValue = function () {
+			mileage = mileagefield.value; //take whatever mileagefield was set to and give me the value of it again to put into the mileage variable
+			var firstfive;
+			firstfive = mileage.substr(0,5);
+			mileagefield.value = firstfive // taking the value of what was entered in the annual mileage field and setting the value to the first 5 characters of that value
+		}
+		setTimeout(setMileageValue,10); //sets the time to 10 milliseconds (the browser works in milliseconds)
+	}
+}
+	
+</Script>
+</HEAD>
+<BODY>
+Annual Mileage <!-- this is a text element - just text that the user can see -->
+<INPUT type="number" id="annualMileage" onkeypress="validateFieldLength()"> <!-- show a text box that allows numeric entry and validates the entry-->
+</INPUT>
+<BUTTON onclick="annualMileage()">
+Enter
+</BUTTON>
+<DIV id="response">
+</DIV>
+</BODY>
+</HTML>

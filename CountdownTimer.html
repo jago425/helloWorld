@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+p {
+  text-align: center;
+  font-size: 60px;
+}
+</style>
+</head>
+<body>
+
+<p id="demo"></p>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Aug 25, 2017 17:00:00");
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate.getTime() - now.getTime();
+    
+    // Time calculations for months, days, hours, minutes and seconds
+	var months = countDownDate.getMonth()- now.getMonth();
+	if (countDownDate.getDate()<now.getDate()){
+		months--;
+	}
+	var futureDate = new Date(now.getTime());
+	futureDate.setMonth(futureDate.getMonth()+months);
+	var days = Math.floor((countDownDate.getTime()-futureDate.getTime()) / (1000 * 60 * 60 * 24));
+    //var days = Math.floor(distance / (1000 * 60 * 60 * 24));//total # of days between now and target date
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); 
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = months + "m " + days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+}, 1000);
+</script>
+
+</body>
+</html>

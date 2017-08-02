@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<Script>
+var vehicle;
+vehicle = {
+	year:"2001",
+	make:"GMC",
+	model:"SIERRA",
+	getName:function () {
+		return this.year+" "+this.make+" "+this.model; //return the year make model string to the field that called this function.  "this" refers to the object the function is currently in. the object in this case is the stuff between the two curly braces
+	
+	}
+}; //creates an object with a year field, make field and model field with assigned values (2001 GMC Sierra)
+function setVehicleName(){
+	//var vehicleName;
+	//vehicleName = vehicle.year+" "+vehicle.make+" "+vehicle.model; //vehicle name is year make model
+	//var nameVehicle; // creates a variable to use to pull the vehicleName from the HTML Div
+	nameVehicle = document.getElementById("vehicleName"); // defines the variable as the HTML Div ID so we can pull it for the vehicle name
+		nameVehicle.innerHTML = vehicle.getName ();
+}
+
+</Script>
+</HEAD>
+<BODY onload="setVehicleName()">
+<DIV id="vehicleName"> 
+<DIV> 
+</BODY>
+</HTML>

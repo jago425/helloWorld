@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<Script>
+
+function sayHi() {
+
+	var hi;
+	hi = document.getElementById("field").value; //this calls the getElementbyID function that is apart of the document object.  Basically, this is looking for an HTML element where the ID is "field" and then get the value of that field
+
+	hi = parseInt (hi); //hi equals whatever the user enters
+	for (var x = 0; x < hi; x++) {//starting x out as 0; tells the loop to keep running as long as x is less than hi; tell the loop what to do after each time it runs
+		var response;
+		response = document.getElementById("response"); //get the HTML element from DIV
+		response.innerHTML = "Hi. What's Up?<br/>" + response.innerHTML; //take the response and set it to Hi. What's Up and then add what was set on a new line 
+		
+		//console.debug ("hi"+x); //responds hi in the console
+	}
+}
+
+	
+</Script>
+</HEAD>
+<BODY>
+How many times would you like to say hi? <!-- this is a text element - just text that the user can see -->
+<INPUT type="number" maxlength="2" pattern="([0-9]|[0-9])" id="field"> <!-- show a text box -->
+</INPUT>
+<BUTTON onclick="sayHi()">
+Enter
+</BUTTON>
+<DIV id="response">
+</DIV>
+</BODY>
+</HTML>
