@@ -9,26 +9,42 @@
 		</STYLE>
 
 <Script>
+//the game ends when either X or O occurs 3 times in a diagonal, vertical or horizontal line
+//or the game ends when all the boxes have an entry
 
-
+	var nextTurn 
+	nextTurn=1
+	function turn(cell) { //function to look at the element (cell) that was just clicked
+		if (cell.innerHTML!=""){
+		return;
+		}
+		if((nextTurn%2)==1){ //if next turn is an odd number (modulus turn number divided 2)
+		cell.innerHTML = "X";//then write "X" in the cell
+		}
+		else{	
+		cell.innerHTML = "O";//write "O" in the cell
+		}
+		nextTurn++;	//Add 1 to each turn after nextTurn 1
+		
+	}
 </Script>
 </HEAD>
 <BODY>
 	<TABLE>
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td onclick="turn(this)" id="00"></td>
+			<td onclick="turn(this)" id="01"></td>
+			<td onclick="turn(this)" id="02"></td>
 		</tr>
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td onclick="turn(this)" id="10"></td>
+			<td onclick="turn(this)" id="11"></td>
+			<td onclick="turn(this)" id="12"></td>
 		</tr>
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td onclick="turn(this)" id="20"></td>
+			<td onclick="turn(this)" id="21"></td>
+			<td onclick="turn(this)" id="22"></td>
 		</tr>
 	</TABLE>
 	<BUTTON onclick="cancelGame()">
