@@ -11,7 +11,10 @@
 <Script>
 //the game ends when either X or O occurs 3 times in a diagonal, vertical or horizontal line
 //or the game ends when all the boxes have an entry
-
+//when X wins - alert "X" wins 
+//when O wins - alert that "O" wins
+//when no one wins - alert after the last box has an entry "No Winners"
+//if New Game button is clicked, all entries on the board are removed and game is restarted
 	var nextTurn 
 	nextTurn=1
 	function turn(cell) { //function to look at the element (cell) that was just clicked
@@ -25,8 +28,48 @@
 		cell.innerHTML = "O";//write "O" in the cell
 		}
 		nextTurn++;	//Add 1 to each turn after nextTurn 1
+		//checkDiagonal();
+	}
+	function checkWin(){
 		
 	}
+	function checkDiagonal(){//function to check the cells in the diagonals to see if there's 3 matching characters in a row
+		var diagonalOne=["00","11","22"]
+		for(var index=0; index<3; index++){//loop through 0 to 2 adding 1 after each loop
+		firstDiagonal=document.getElementById(diagonalOne[index]);//get the ids called 00, 11 and 22 by grabbing them from index of the diagonalOne array.
+		//check each cell in diagonalOne to see if there is an "X" in each cell or if there is an "O" in each cell
+		if //if each cell in diagonalOne contains an "X", then alert "X" wins
+		if //if each cell in diagonalOne contains an "O", then alert "O" wins
+		}
+		var diagonalTwo=["02","11","20"]
+		for(var index=02; index<22; index+11){//loop through 02 to 22 adding 11 after each loop
+		secondDiagonal=document.getElementById(diagonalTwo[index]);//get the ids called 02, 11 and 22 by grabbing them from index of the diagonalTwo array.
+		//check each cell in diagonalTwo to see if there is an "X" in each cell or if there is an "O" in each cell
+		if //if each cell in diagonalTwo contains an "X", then alert "X" wins
+		if //if each cell in diagonalTwo contains an "O", then alert "O" wins
+		}
+	}
+	function checkVertical(){//function to check the cells in the 3 columns to see if there's 3 matching characters a row
+		for (var columnNumber=0; columnNumber<3; columnNumber++){//loop through column 0 to 2 adding 1 after each loop
+		var columnId;
+		columnNumber=columnNumber.id.substr(1,1);//grab the ID and take the 2nd character of the ID
+		columnNumber=document.getElementById(columnNumber)//get the ids within each column number
+		//check to see if each cell in columnNumber has an "X" in each cell or an "O" in each cell
+		if //if each cell in columnNumber contains an "X", then alert "X" wins
+		if //if each cell in columnNumber contains an "O", then alert "O" wins
+		}
+	}
+	function checkHorizontal(){//function to check the cells in the 3 rows to see if there's 3 matching characters in a row
+		for(var rowNumber=0; rowNumber<3; rowNumber++){//loop through row
+		var rowNumber;
+		rowNumber=rowNumber.id.substr(0,1);//grab the ID and take the first character of the ID
+		rowNumber=document.getElementById(rowNumber)//get the ids within each row number
+		//check to see if each cell in rowNumber has an "X" in each cell or an "O" in each cell
+		if //if each cell in rowNumber contains an "X", then alert "X" wins
+		if //if each cell in rowNumber contains an "O", then alert "O" wins
+		}
+	}
+	
 </Script>
 </HEAD>
 <BODY>
@@ -47,9 +90,6 @@
 			<td onclick="turn(this)" id="22"></td>
 		</tr>
 	</TABLE>
-	<BUTTON onclick="cancelGame()">
-		Cancel
-		</BUTTON>
 		<BUTTON onclick="loadGame()">
 		New Game
 	</BUTTON>

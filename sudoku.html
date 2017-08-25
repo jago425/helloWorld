@@ -107,7 +107,7 @@
 				userInput=input.value;
 				for (var rowNumber = 0; rowNumber < 9; rowNumber++){
 					var columnNumber;
-					columnNumber=input.id.substr(1,1);
+					columnNumber=input.id.substr(1,1);//take the input field and grab the ID of the cell and grab the second character in the ID of the cell
 					var cellId;
 					cellId=rowNumber + columnNumber;
 					var cell = document.getElementById(cellId);
